@@ -95,6 +95,21 @@ museum-ml-project/
   - "things to do in Los Angeles"
   - "Los Angeles attractions"
   - "family activities Los Angeles"
+- Current Google Trends implementation in this branch focuses on **Avila Adobe** first, with a small benchmark set for context:
+  - Avila Adobe / Olvera Street brand and discovery terms
+  - Historical-significance terms such as "oldest house in Los Angeles"
+  - Lifestyle/history curiosity terms such as "living history museum"
+  - A small benchmark set including Getty Museum, La Brea Tar Pits, and Griffith Observatory
+- Generated trend files:
+  - `data/raw/trends/keywords.csv`
+  - `data/raw/trends/trends_weekly_long.csv`
+  - `data/processed/trends_monthly_long.csv`
+  - `data/processed/trends_monthly.csv`
+  - `data/processed/avila_trends_monthly_dataset.csv`
+- Supporting notes and sources:
+  - `docs/google_trends_notes.md`
+  - `docs/avila_marketing_research.md`
+  - `docs/sources.md`
 
 ### Calendar Features
 - Month
@@ -167,6 +182,59 @@ source .venv/bin/activate   # Mac/Linux
 ### Install Packages
 ```bash
 pip install -r requirements.txt
+
+### Build Google Trends dataset
+```bash
+python src/fetch_google_trends.py
+```
+
+If Google rate-limits the API after a successful raw pull, rebuild the monthly outputs from the cached raw file:
+
+```bash
+python src/fetch_google_trends.py --use-existing-raw
+```
+
+If a longer pull is interrupted, resume from the partially saved raw CSV:
+
+```bash
+python src/fetch_google_trends.py --resume-existing-raw
+```
+
+### Build keyword ranking
+```bash
+python src/rank_trends_keywords.py
+```
+
+### Print summaries and save plots
+```bash
+python src/summarize_trends_insights.py
+```
+
+This summary script prints:
+- top-ranked available terms
+- theme-level opportunity summaries
+- terms still waiting on live fetch
+- quick visitor-alignment correlations for Avila Adobe
+
+It also saves plots to:
+- `outputs/plots/top_keyword_opportunities.png`
+- `outputs/plots/avila_vs_top_trends.png`
+- `outputs/plots/theme_opportunity_scores.png`
+
+### Recommended: run everything into a versioned folder
+```bash
+python src/run_trends_versioned.py --run-label python_v1 --use-existing-raw
+```
+
+This writes a self-contained run to:
+- `data/processed/python_v1/`
+- `data/raw/trends/python_v1/`
+- `outputs/plots/python_v1/`
+
+For a new run, change the label:
+```bash
+python src/run_trends_versioned.py --run-label python_v2 --resume-existing-raw
+```
 
 ---
 
