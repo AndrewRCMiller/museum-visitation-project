@@ -81,7 +81,7 @@ def main() -> None:
     parser.add_argument('--museum-csv', type=Path, default=Path('../museum-visitors.csv'))
     args = parser.parse_args()
 
-    root = Path(__file__).resolve().parents[1]
+    root = Path(__file__).resolve().parents[2]
     py = sys.executable
     exports_dir = args.exports_dir if args.exports_dir.is_absolute() else (root / args.exports_dir)
     if not exports_dir.exists():
@@ -89,7 +89,7 @@ def main() -> None:
 
     processed_dir = root / 'data' / 'processed' / args.run_label
     raw_dir = root / 'data' / 'raw' / 'trends' / args.run_label
-    plots_dir = root / 'outputs' / 'plots' / args.run_label
+    plots_dir = root / 'outputs' / 'plots' / 'google_trends_marketing' / args.run_label
     processed_dir.mkdir(parents=True, exist_ok=True)
     raw_dir.mkdir(parents=True, exist_ok=True)
     plots_dir.mkdir(parents=True, exist_ok=True)
@@ -142,7 +142,7 @@ def main() -> None:
 
     run([
         py,
-        'src/rank_trends_keywords.py',
+        'src/google_trends_marketing/rank_trends_keywords.py',
         '--monthly-long', str(processed_dir / 'trends_monthly_long.csv'),
         '--keywords-csv', 'data/raw/trends/keywords.csv',
         '--out-csv', str(processed_dir / 'keyword_opportunity_ranking.csv'),
@@ -152,7 +152,7 @@ def main() -> None:
 
     run([
         py,
-        'src/summarize_trends_insights.py',
+        'src/google_trends_marketing/summarize_trends_insights.py',
         '--ranking-csv', str(processed_dir / 'keyword_opportunity_ranking.csv'),
         '--monthly-csv', str(processed_dir / 'trends_monthly.csv'),
         '--monthly-long-csv', str(processed_dir / 'trends_monthly_long.csv'),

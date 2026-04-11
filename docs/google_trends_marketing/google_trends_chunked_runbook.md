@@ -20,7 +20,7 @@ source .venv/bin/activate
 Use this if you only want to regenerate rankings, available-only tables, and plots from the already saved raw data.
 
 ```bash
-python src/run_trends_versioned.py --run-label python_v1 --use-existing-raw
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1 --use-existing-raw
 ```
 
 ## Wait And Retry Missing Terms In Small Chunks
@@ -30,19 +30,19 @@ Use these later when you want to try filling in only the missing terms without o
 ### First chunk of 3 pending terms
 
 ```bash
-python src/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --limit 3 --continue-on-error --sleep 12
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --limit 3 --continue-on-error --sleep 12
 ```
 
 ### Second chunk of 3 pending terms
 
 ```bash
-python src/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --offset 3 --limit 3 --continue-on-error --sleep 12
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --offset 3 --limit 3 --continue-on-error --sleep 12
 ```
 
 ### Third chunk of 3 pending terms
 
 ```bash
-python src/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --offset 6 --limit 3 --continue-on-error --sleep 12
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --offset 6 --limit 3 --continue-on-error --sleep 12
 ```
 
 ### More conservative single-term retry
@@ -50,7 +50,7 @@ python src/run_trends_versioned.py --run-label python_v1 --resume-existing-raw -
 If Google is still throttling requests, try one term at a time with a larger sleep:
 
 ```bash
-python src/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --limit 1 --continue-on-error --sleep 60
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1 --resume-existing-raw --limit 1 --continue-on-error --sleep 60
 ```
 
 ## Files To Check After Each Retry
@@ -69,15 +69,15 @@ python src/run_trends_versioned.py --run-label python_v1 --resume-existing-raw -
 ## Open The Best Current Plots
 
 ```bash
-open "outputs/plots/python_v1/top_keyword_opportunities.png"
-open "outputs/plots/python_v1/avila_vs_top_trends.png"
-open "outputs/plots/python_v1/avila_vs_benchmarks.png"
+open "outputs/plots/google_trends_marketing/python_v1/top_keyword_opportunities.png"
+open "outputs/plots/google_trends_marketing/python_v1/avila_vs_top_trends.png"
+open "outputs/plots/google_trends_marketing/python_v1/avila_vs_benchmarks.png"
 ```
 
 ## If You Want A New Version Instead Of Updating `python_v1`
 
 ```bash
-python src/run_trends_versioned.py --run-label python_v2 --resume-existing-raw --limit 3 --continue-on-error --sleep 12
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v2 --resume-existing-raw --limit 3 --continue-on-error --sleep 12
 ```
 
 ## Worldwide Note
@@ -86,5 +86,5 @@ python src/run_trends_versioned.py --run-label python_v2 --resume-existing-raw -
 - If you want a separate worldwide run, use a new label so it does not mix with the California-focused data:
 
 ```bash
-python src/run_trends_versioned.py --run-label python_world_v1 --geo "" --resume-existing-raw --limit 1 --continue-on-error --sleep 60
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_world_v1 --geo "" --resume-existing-raw --limit 1 --continue-on-error --sleep 60
 ```

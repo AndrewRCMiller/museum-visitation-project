@@ -61,17 +61,30 @@ museum-ml-project/
 │   ├── build_dataset.py
 │   ├── features.py
 │   ├── model.py
-│   └── utils.py
+│   ├── utils.py
+│   └── google_trends_marketing/
+│       ├── fetch_google_trends.py
+│       ├── rank_trends_keywords.py
+│       ├── summarize_trends_insights.py
+│       ├── run_trends_versioned.py
+│       └── import_google_trends_exports.py
 │
 ├── outputs/
 │   ├── plots/
+│   │   └── google_trends_marketing/
+│   │       └── python_v1/
 │   ├── tables/
 │   └── models/
 │
 └── docs/
     ├── proposal.docx
     ├── presentation_outline.md
-    └── final_notes.md
+    ├── final_notes.md
+    └── google_trends_marketing/
+        ├── avila_marketing_research.md
+        ├── google_trends_notes.md
+        ├── google_trends_chunked_runbook.md
+        └── sources.md
 
     ---
 
@@ -100,16 +113,37 @@ museum-ml-project/
   - Historical-significance terms such as "oldest house in Los Angeles"
   - Lifestyle/history curiosity terms such as "living history museum"
   - A small benchmark set including Getty Museum, La Brea Tar Pits, and Griffith Observatory
-- Generated trend files:
-  - `data/raw/trends/keywords.csv`
-  - `data/raw/trends/trends_weekly_long.csv`
-  - `data/processed/trends_monthly_long.csv`
-  - `data/processed/trends_monthly.csv`
-  - `data/processed/avila_trends_monthly_dataset.csv`
+- Versioned Google Trends workflow:
+  - scripts live in `src/google_trends_marketing/`
+  - notes and sources live in `docs/google_trends_marketing/`
+  - committed plots live in `outputs/plots/google_trends_marketing/python_v1/`
+  - current baseline processed outputs live in `data/processed/python_v1/`
+- Legacy non-versioned local outputs may still exist in some working copies, but the intended branch structure now uses the versioned `python_v1` folder.
 - Supporting notes and sources:
-  - `docs/google_trends_notes.md`
-  - `docs/avila_marketing_research.md`
-  - `docs/sources.md`
+  - `docs/google_trends_marketing/google_trends_notes.md`
+  - `docs/google_trends_marketing/avila_marketing_research.md`
+  - `docs/google_trends_marketing/google_trends_chunked_runbook.md`
+  - `docs/google_trends_marketing/sources.md`
+- Current `python_v1` files include:
+  - `data/raw/trends/keywords.csv`
+  - `data/raw/trends/python_v1/trends_weekly_long.csv`
+  - `data/processed/python_v1/trends_monthly_long.csv`
+  - `data/processed/python_v1/trends_monthly.csv`
+  - `data/processed/python_v1/trends_monthly_dataset.csv`
+  - `data/processed/python_v1/trends_monthly_available_only.csv`
+
+### Google Trends Lane Flow
+```mermaid
+flowchart TD
+    Keywords[data/raw/trends/keywords.csv] --> Fetch[src/google_trends_marketing/fetch_google_trends.py]
+    Fetch --> Raw[data/raw/trends/python_v1/trends_weekly_long.csv]
+    Raw --> Rank[src/google_trends_marketing/rank_trends_keywords.py]
+    Raw --> Summarize[src/google_trends_marketing/summarize_trends_insights.py]
+    Rank --> Processed[data/processed/python_v1/keyword_opportunity_ranking_non_benchmarks.csv]
+    Summarize --> Plots[outputs/plots/google_trends_marketing/python_v1/]
+    Processed --> Notebook[notebooks/03_google_trends.ipynb]
+    Plots --> Notebook
+```
 
 ### Calendar Features
 - Month
@@ -185,29 +219,29 @@ pip install -r requirements.txt
 
 ### Build Google Trends dataset
 ```bash
-python src/fetch_google_trends.py
+python src/google_trends_marketing/fetch_google_trends.py
 ```
 
 If Google rate-limits the API after a successful raw pull, rebuild the monthly outputs from the cached raw file:
 
 ```bash
-python src/fetch_google_trends.py --use-existing-raw
+python src/google_trends_marketing/fetch_google_trends.py --use-existing-raw
 ```
 
 If a longer pull is interrupted, resume from the partially saved raw CSV:
 
 ```bash
-python src/fetch_google_trends.py --resume-existing-raw
+python src/google_trends_marketing/fetch_google_trends.py --resume-existing-raw
 ```
 
 ### Build keyword ranking
 ```bash
-python src/rank_trends_keywords.py
+python src/google_trends_marketing/rank_trends_keywords.py
 ```
 
 ### Print summaries and save plots
 ```bash
-python src/summarize_trends_insights.py
+python src/google_trends_marketing/summarize_trends_insights.py
 ```
 
 This summary script prints:
@@ -217,23 +251,23 @@ This summary script prints:
 - quick visitor-alignment correlations for Avila Adobe
 
 It also saves plots to:
-- `outputs/plots/top_keyword_opportunities.png`
-- `outputs/plots/avila_vs_top_trends.png`
-- `outputs/plots/theme_opportunity_scores.png`
+- `outputs/plots/google_trends_marketing/top_keyword_opportunities.png`
+- `outputs/plots/google_trends_marketing/avila_vs_top_trends.png`
+- `outputs/plots/google_trends_marketing/theme_opportunity_scores.png`
 
 ### Recommended: run everything into a versioned folder
 ```bash
-python src/run_trends_versioned.py --run-label python_v1 --use-existing-raw
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1 --use-existing-raw
 ```
 
 This writes a self-contained run to:
 - `data/processed/python_v1/`
 - `data/raw/trends/python_v1/`
-- `outputs/plots/python_v1/`
+- `outputs/plots/google_trends_marketing/python_v1/`
 
 For a new run, change the label:
 ```bash
-python src/run_trends_versioned.py --run-label python_v2 --resume-existing-raw
+python src/google_trends_marketing/run_trends_versioned.py --run-label python_v2 --resume-existing-raw
 ```
 
 ---

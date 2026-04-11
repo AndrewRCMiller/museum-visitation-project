@@ -50,7 +50,7 @@ def main() -> None:
     parser.add_argument('--monthly-csv', type=Path, default=Path('data/processed/avila_marketing_trends_monthly.csv'))
     parser.add_argument('--monthly-long-csv', type=Path, default=Path('data/processed/avila_marketing_trends_monthly_long.csv'))
     parser.add_argument('--museum-csv', type=Path, default=Path('../museum-visitors.csv'))
-    parser.add_argument('--plots-dir', type=Path, default=Path('outputs/plots'))
+    parser.add_argument('--plots-dir', type=Path, default=Path('outputs/plots/google_trends_marketing'))
     parser.add_argument('--out-available-csv', type=Path, default=Path('data/processed/avila_marketing_trends_monthly_available_only.csv'))
     args = parser.parse_args()
 

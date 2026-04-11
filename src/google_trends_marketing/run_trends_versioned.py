@@ -26,12 +26,12 @@ def main() -> None:
     parser.add_argument('--continue-on-error', action='store_true')
     args = parser.parse_args()
 
-    root = Path(__file__).resolve().parents[1]
+    root = Path(__file__).resolve().parents[2]
     py = sys.executable
 
     processed_dir = root / 'data' / 'processed' / args.run_label
     raw_dir = root / 'data' / 'raw' / 'trends' / args.run_label
-    plots_dir = root / 'outputs' / 'plots' / args.run_label
+    plots_dir = root / 'outputs' / 'plots' / 'google_trends_marketing' / args.run_label
 
     processed_dir.mkdir(parents=True, exist_ok=True)
     raw_dir.mkdir(parents=True, exist_ok=True)
@@ -44,7 +44,7 @@ def main() -> None:
 
     fetch_cmd = [
         py,
-        'src/fetch_google_trends.py',
+        'src/google_trends_marketing/fetch_google_trends.py',
         '--timeframe', args.timeframe,
         '--geo', args.geo,
         '--sleep', str(args.sleep),
@@ -69,7 +69,7 @@ def main() -> None:
 
     ranking_cmd = [
         py,
-        'src/rank_trends_keywords.py',
+        'src/google_trends_marketing/rank_trends_keywords.py',
         '--monthly-long', str(processed_dir / 'trends_monthly_long.csv'),
         '--keywords-csv', 'data/raw/trends/keywords.csv',
         '--out-csv', str(processed_dir / 'keyword_opportunity_ranking.csv'),
@@ -80,7 +80,7 @@ def main() -> None:
 
     summary_cmd = [
         py,
-        'src/summarize_trends_insights.py',
+        'src/google_trends_marketing/summarize_trends_insights.py',
         '--ranking-csv', str(processed_dir / 'keyword_opportunity_ranking.csv'),
         '--monthly-csv', str(processed_dir / 'trends_monthly.csv'),
         '--monthly-long-csv', str(processed_dir / 'trends_monthly_long.csv'),
