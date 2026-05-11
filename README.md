@@ -4,9 +4,18 @@ SEIS 763 Machine Learning project focused on forecasting monthly museum visitati
 
 ---
 
-## Overview
+# Overview
 
-This project builds a machine learning workflow to predict **monthly museum visitor counts**. The project combines multiple data sources to simulate a real-world forecasting problem where a museum could use visitor predictions to support staffing, operations, marketing timing, and planning.
+This project builds a complete machine learning workflow to predict **monthly museum visitor counts**. The project combines multiple data sources to simulate a real-world forecasting problem where museums and historic sites could use visitor predictions to support staffing, operations, marketing timing, budgeting, and long-term planning.
+
+The workflow includes:
+
+- Data collection
+- Data cleaning
+- Feature engineering
+- Time-series forecasting
+- Machine learning model comparison
+- Visualization and interpretation
 
 The final modeling dataset includes:
 
@@ -18,7 +27,7 @@ The final modeling dataset includes:
 
 ---
 
-## Project Goals
+# Project Goals
 
 - Forecast monthly museum visitation using machine learning
 - Understand the main drivers of attendance
@@ -29,101 +38,81 @@ The final modeling dataset includes:
 
 ---
 
-## Project Structure
+# Project Structure
 
-### Root Files
-
-- `README.md` — project overview and workflow notes
-- `requirements.txt` — Python package requirements
-- `.gitignore` — ignored local files and folders
-
----
-
-### data/
-
-#### raw/
-
-- `museum/` — raw museum attendance files
-- `weather/` — raw weather files
-- `trends/` — raw Google Trends files
-- `calendar/` — raw calendar feature files
-
-#### processed/
-
-- `museum_monthly.csv` — cleaned monthly museum visitation data
-- `weather_monthly.csv` — cleaned monthly weather data
-- `calendar_monthly.csv` — calendar and seasonal features
-- `final_dataset.csv` — merged project dataset
-- `model_dataset.csv` — final modeling dataset with lag features
-- `google-trends-marketing-v2/` — processed Google Trends marketing datasets
-- `python_v1/` — versioned Google Trends workflow outputs
-
----
-
-### notebooks/
-
-- `01_museum_data.ipynb` — museum attendance preparation
-- `02_weather_data.ipynb` — weather data preparation
-- `03_google_trends.ipynb` — Google Trends data work
-- `04_calendar_features.ipynb` — calendar and seasonal features
-- `05_feature_engineering.ipynb` — feature creation and preparation
-- `06_modeling.ipynb` — machine learning modeling and evaluation
-- `07_presentation_visuals.ipynb` — visuals for final presentation
-- `08_build_final_dataset.ipynb` — final dataset merge workflow
-- `09_create_model_dataset.ipynb` — creation of model-ready dataset with lag features
-
----
-
-### src/
-
-- `google_trends_marketing/` — Google Trends workflow scripts
-- `fetch_google_trends.py` — fetch Google Trends data
-- `rank_trends_keywords.py` — rank Google Trends keyword opportunities
-- `summarize_trends_insights.py` — summarize Google Trends insights and plots
-- `run_trends_versioned.py` — run versioned Google Trends pipeline
-- `import_google_trends_exports.py` — import Google Trends exports
-
----
-
-### outputs/
-
-#### plots/
-
-- Modeling plots
-- Google Trends marketing plots
-- Presentation-ready visuals
-
-#### tables/
-
-- Model comparison table
-- Feature importance tables
-- Modeling outputs
-
-#### models/
-
-- Saved model artifacts, if used
+```text
+museum-visitation-ml/
+│
+├── README.md
+├── requirements.txt
+├── .gitignore
+│
+├── data/
+│   ├── raw/
+│   │   ├── museum/
+│   │   ├── weather/
+│   │   ├── trends/
+│   │   └── calendar/
+│   │
+│   └── processed/
+│       ├── museum_monthly.csv
+│       ├── weather_monthly.csv
+│       ├── calendar_monthly.csv
+│       ├── final_dataset.csv
+│       ├── model_dataset.csv
+│       ├── google-trends-marketing-v2/
+│       └── python_v1/
+│
+├── notebooks/
+│   ├── 01_museum_data.ipynb
+│   ├── 02_weather_data.ipynb
+│   ├── 03_google_trends.ipynb
+│   ├── 04_calendar_features.ipynb
+│   ├── 05_feature_engineering.ipynb
+│   ├── 06_modeling.ipynb
+│   ├── 07_presentation_visuals.ipynb
+│   ├── 08_build_final_dataset.ipynb
+│   └── 09_create_model_dataset.ipynb
+│
+├── outputs/
+│   ├── plots/
+│   ├── tables/
+│   └── models/
+│
+├── src/
+│   ├── google_trends_marketing/
+│   ├── fetch_google_trends.py
+│   ├── rank_trends_keywords.py
+│   ├── summarize_trends_insights.py
+│   ├── run_trends_versioned.py
+│   └── import_google_trends_exports.py
+│
+└── docs/
+    ├── proposal.docx
+    ├── Museum_Visitation_Final_Report.docx
+    ├── final_notes.md
+    └── google_trends_marketing/
+```
 
 ---
 
-### docs/
+# Data Sources
 
-- `proposal.docx` — project proposal
-- `final_notes.md` — final project notes
-- `google_trends_marketing/` — Google Trends documentation, notes, sources, and runbooks
+## Museum Visitor Dataset
+
+Monthly museum visitor counts for Los Angeles museums from 2014–2021.
+
+Project focus:
+- Avila Adobe historic site
+
+Dataset source:
+https://www.kaggle.com/code/yasinnaal/los-angeles-museums-visitors
 
 ---
 
-## Data Sources
+## NOAA Climate Data
 
-### Museum Visitor Data
-
-- Monthly museum visitor counts
-- Target variable: `visitors`
-- Used to train and evaluate forecasting models
-
-### Weather Data
-
-Weather features include:
+Monthly weather data including:
 
 - Average temperature
 - Minimum temperature
@@ -131,52 +120,67 @@ Weather features include:
 - Total precipitation
 - Average wind speed
 
-Weather values were converted to U.S. units where needed:
-
-- Temperature: Fahrenheit
-- Precipitation: inches
-- Wind speed: miles per hour
-
-### Google Trends Data
-
-Google Trends was used as a proxy for public interest and tourism demand. Search terms included attraction, museum, local history, and tourism-related phrases.
-
-Examples include:
-
-- `los_angeles_attractions`
-- `los_angeles_museums`
-- `olvera_street`
-- `el_pueblo_los_angeles`
-- `getty_museum`
-- `things_to_do_in_la`
-
-The Google Trends workflow includes versioned outputs and supporting documentation in:
-
-- `src/google_trends_marketing/`
-- `docs/google_trends_marketing/`
-- `outputs/plots/google_trends_marketing/`
-- `data/processed/python_v1/`
-
-### Calendar and Seasonal Features
-
-Calendar variables include:
-
-- Month-based seasonality
-- Holiday indicators
-- School break indicators
-- Seasonal flags
-- Cyclical month features such as `month_sin` and `month_cos`
+Dataset source:
+https://www.ncdc.noaa.gov/cdo-web/datasets
 
 ---
 
-## Data Workflow
+## Holiday and Calendar Features
 
-1. Build individual monthly datasets for museum, weather, Google Trends, and calendar features.
-2. Ensure all datasets use a shared `month` field.
-3. Merge datasets into `final_dataset.csv`.
-4. Create lag and rolling features.
-5. Save final modeling file as `model_dataset.csv`.
-6. Use `model_dataset.csv` for machine learning.
+Calendar-based features include:
+
+- Holiday indicators
+- School break indicators
+- Tourism seasons
+- Seasonal categories
+- Cyclical month features
+
+Dataset source:
+https://pypi.org/project/holidays/
+
+---
+
+## Google Trends Data
+
+Google Trends was used as a proxy for public interest and tourism demand.
+
+Example search terms:
+
+- los_angeles_museums
+- things_to_do_in_la
+- olvera_street
+- getty_museum
+- los_angeles_attractions
+- el_pueblo_los_angeles
+
+Dataset source:
+https://trends.google.com/trends/
+
+The Google Trends workflow includes:
+
+- Versioned outputs
+- Marketing plots
+- Keyword ranking
+- Supporting documentation
+
+Related folders:
+
+- src/google_trends_marketing/
+- docs/google_trends_marketing/
+- outputs/plots/google_trends_marketing/
+
+---
+
+# Data Workflow
+
+1. Build monthly museum dataset
+2. Build monthly weather dataset
+3. Build Google Trends dataset
+4. Build calendar/seasonality dataset
+5. Merge all datasets into final_dataset.csv
+6. Create lag and rolling features
+7. Save final modeling file as model_dataset.csv
+8. Train and compare machine learning models
 
 Example merge logic:
 
@@ -188,40 +192,75 @@ df = df.merge(calendar, on="month", how="left")
 
 ---
 
-## Feature Engineering
+# Feature Engineering
 
-The final model dataset includes lag-based and seasonal features:
+The final modeling dataset includes:
 
-- `visitors_lag1` — previous month visitor count
-- `visitors_lag12` — same month visitor count from the previous year
-- `rolling_mean_3` — rolling three-month average of visitors
-- `month_sin` and `month_cos` — cyclical month features
-- Holiday and seasonal indicators
-- Weather variables
-- Google Trends search-interest variables
+## Lag Features
 
-The lag features are important because they allow the model to learn short-term momentum and yearly seasonality in museum visitation.
+- visitors_lag1
+- visitors_lag12
+- rolling_mean_3
+
+These features help the model learn:
+
+- Short-term visitor momentum
+- Yearly seasonality patterns
+- Attendance trends
 
 ---
 
-## Modeling Approach
+## Weather Features
 
-The modeling notebook compares several regression models:
+- avg_temp_F
+- min_temp_F
+- max_temp_F
+- total_precip_in
+- avg_wind_mph
+
+Weather values were converted into U.S. units where necessary.
+
+---
+
+## Seasonal Features
+
+- is_summer
+- is_winter
+- holiday indicators
+- spring_break
+- summer_tourism_season
+- month_sin
+- month_cos
+
+---
+
+## Google Trends Features
+
+Google Trends variables represent:
+
+- Tourism interest
+- Public awareness
+- Search demand
+- Attraction popularity
+
+---
+
+# Modeling Approach
+
+The project compares multiple regression models:
 
 - Linear Regression
 - Cleaned Linear Regression
-- LASSO
+- LASSO Regression
 - LASSO-LARS
 - Random Forest Regression
 - Gradient Boosting Regression
-- SVR with RBF kernel
-- SVR with linear kernel
+- SVR (RBF Kernel)
+- SVR (Linear Kernel)
 
-### Final Model Selection
+---
 
-The best-performing models were **LASSO-LARS** and **LASSO**. These models performed well because they reduce overfitting and handle correlated predictors by shrinking weaker variables toward zero.
-
-### Model Evaluation Metrics
+# Evaluation Metrics
 
 Models were evaluated using:
 
@@ -229,7 +268,9 @@ Models were evaluated using:
 - MAE — Mean Absolute Error
 - R² Score
 
-### Final Model Comparison
+---
+
+# Final Model Comparison
 
 | Rank | Model | RMSE | MAE | R² |
 |---:|---|---:|---:|---:|
@@ -244,39 +285,88 @@ Models were evaluated using:
 
 ---
 
-## Key Findings
+# Best Model
 
-- Lag features were among the strongest predictors of museum visitation.
-- `visitors_lag1` captured short-term visitor momentum.
-- `visitors_lag12` captured yearly seasonality.
-- Google Trends variables helped represent public interest and tourism demand.
-- Weather variables contributed to the model, but they were not the strongest predictors.
-- LASSO and LASSO-LARS outperformed more complex tree-based models.
-- The RBF SVR model underperformed, while the tuned linear SVR performed reasonably well.
-- Regularized linear models provided the best balance of accuracy and interpretability.
+Best overall model:
+- **LASSO-LARS**
+
+Why it performed best:
+
+- Reduced overfitting
+- Handled correlated predictors well
+- Balanced accuracy and interpretability
+- Selected the strongest predictors automatically
 
 ---
 
-## COVID-19 Handling
+# Key Findings
 
-COVID-19 closure months were removed before modeling because zero visitor counts during forced closure do not represent normal visitation behavior. Removing these months helped prevent the model from learning an artificial closure pattern.
+- Lag features were the strongest predictors.
+- visitors_lag1 captured short-term visitation momentum.
+- visitors_lag12 captured yearly seasonality.
+- Google Trends variables improved demand estimation.
+- Weather contributed to visitation patterns but was weaker than lag features.
+- LASSO-based models outperformed more complex tree-based models.
+- Linear SVR performed reasonably well after tuning.
+- RBF SVR underperformed and appeared to underfit the data.
 
-The removed period was:
+---
+
+# COVID-19 Handling
+
+COVID-19 closure months were removed before final modeling because the forced closure period does not represent normal visitation behavior.
+
+Removed period:
 
 - April 2020 through May 2021
 
+Removing these months improved model stability and predictive accuracy.
+
 ---
 
-## How to Run
+# General Dataset Statistics
 
-### Clone the Repository
+- Regression forecasting problem
+- Final modeling dataset contains engineered lag and seasonal features
+- Missing values handled during preprocessing
+- Features standardized where appropriate before modeling
+- Time-based train/test split used for forecasting realism
+
+---
+
+# Visualization Outputs
+
+The project includes:
+
+- Actual vs Predicted plots
+- Residual plots
+- LASSO coefficient path plots
+- Cross-validation error plots
+- Random Forest feature importance plots
+- Gradient Boosting feature importance plots
+- Seasonal visitation trend plots
+
+All outputs are saved under:
+
+```text
+outputs/plots/
+outputs/tables/
+```
+
+---
+
+# How to Run
+
+## Clone Repository
 
 ```bash
 git clone https://github.com/Andy-FireClimWx/museum-ml-project.git
 cd museum-ml-project
 ```
 
-### Create Environment
+---
+
+## Create Environment
 
 ```bash
 python -m venv .venv
@@ -294,61 +384,65 @@ Mac/Linux:
 source .venv/bin/activate
 ```
 
-### Install Packages
+---
+
+## Install Requirements
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run the Notebook Workflow
+---
 
-Run the notebooks in order:
+## Run Notebook Workflow
 
-1. `01_museum_data.ipynb`
-2. `02_weather_data.ipynb`
-3. `03_google_trends.ipynb`
-4. `04_calendar_features.ipynb`
-5. `05_feature_engineering.ipynb`
-6. `08_build_final_dataset.ipynb`
-7. `09_create_model_dataset.ipynb`
-8. `06_modeling.ipynb`
-9. `07_presentation_visuals.ipynb`
+Run notebooks in this order:
+
+1. 01_museum_data.ipynb
+2. 02_weather_data.ipynb
+3. 03_google_trends.ipynb
+4. 04_calendar_features.ipynb
+5. 05_feature_engineering.ipynb
+6. 08_build_final_dataset.ipynb
+7. 09_create_model_dataset.ipynb
+8. 06_modeling.ipynb
+9. 07_presentation_visuals.ipynb
 
 ---
 
-## Google Trends Workflow
+# Google Trends Workflow
 
-Build Google Trends data:
+Fetch Google Trends data:
 
 ```bash
 python src/google_trends_marketing/fetch_google_trends.py
 ```
 
-Use cached raw data if rate-limited:
+Use cached raw data:
 
 ```bash
 python src/google_trends_marketing/fetch_google_trends.py --use-existing-raw
 ```
 
-Resume from existing raw data:
+Resume existing workflow:
 
 ```bash
 python src/google_trends_marketing/fetch_google_trends.py --resume-existing-raw
 ```
 
-Build keyword ranking:
+Build keyword rankings:
 
 ```bash
 python src/google_trends_marketing/rank_trends_keywords.py
 ```
 
-Print summaries and save plots:
+Generate summaries and plots:
 
 ```bash
 python src/google_trends_marketing/summarize_trends_insights.py
 ```
 
-Run a versioned workflow:
+Run versioned workflow:
 
 ```bash
 python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1 --use-existing-raw
@@ -356,29 +450,33 @@ python src/google_trends_marketing/run_trends_versioned.py --run-label python_v1
 
 ---
 
-## Team Roles
+# Team Roles
 
-- Project Lead
-- Museum Data
-- Weather Data
-- Google Trends Data
-- Calendar Features
-- Feature Engineering
-- Modeling
-- Presentation
-
----
-
-## Final Conclusion
-
-This project shows that monthly museum visitation can be forecasted reasonably well using historical attendance patterns, seasonal features, Google Trends demand signals, and weather data. The strongest models were LASSO and LASSO-LARS, which performed best because they reduced overfitting and handled correlated predictors effectively. The most important predictors were lag features and public-interest variables, showing that past attendance and search behavior are stronger signals than weather alone. Overall, the project demonstrates a complete machine learning workflow from data collection and feature engineering to model comparison and interpretation.
+- Museum data preparation
+- Weather data preparation
+- Google Trends workflow
+- Calendar feature engineering
+- Feature engineering
+- Machine learning modeling
+- Visualization and presentation
+- Documentation and reporting
 
 ---
 
-## Notes
+# Final Conclusion
 
-- All datasets should use `month` format: `YYYY-MM`.
-- The model should use `model_dataset.csv`, not only `final_dataset.csv`.
-- Missing values are handled after merging.
-- COVID closure months are removed before modeling.
-- Output plots and tables are saved under the root `outputs/` folder.
+This project demonstrates that monthly museum visitation can be forecasted reasonably well using machine learning models combined with historical visitation patterns, seasonal indicators, Google Trends demand signals, and weather data.
+
+The strongest models were LASSO and LASSO-LARS because they reduced overfitting and handled correlated predictors effectively. The most important predictors were lag variables and Google Trends public-interest features, showing that past attendance behavior and tourism demand are stronger signals than weather alone.
+
+Overall, the project demonstrates a complete end-to-end machine learning workflow from data collection and feature engineering to model evaluation, interpretation, and forecasting.
+
+---
+
+# Notes
+
+- All datasets use month format YYYY-MM
+- model_dataset.csv should be used for modeling
+- COVID closure months were removed before modeling
+- Outputs are saved to the root outputs/ folder
+- Time-based train/test splitting was used for final forecasting models
