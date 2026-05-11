@@ -58,16 +58,12 @@ museum-ml-project/
 │   └── 07_presentation_visuals.ipynb
 │
 ├── src/
-│   ├── build_dataset.py
-│   ├── features.py
-│   ├── model.py
-│   ├── utils.py
-│   └── google_trends_marketing/
-│       ├── fetch_google_trends.py
-│       ├── rank_trends_keywords.py
-│       ├── summarize_trends_insights.py
-│       ├── run_trends_versioned.py
-│       └── import_google_trends_exports.py
+│     ├──google_trends_marketing/
+│     ├── fetch_google_trends.py
+│     ├── rank_trends_keywords.py
+│     ├── summarize_trends_insights.py
+│     ├── run_trends_versioned.py
+│     └── import_google_trends_exports.py
 │
 ├── outputs/
 │   ├── plots/
@@ -78,7 +74,6 @@ museum-ml-project/
 │
 └── docs/
     ├── proposal.docx
-    ├── presentation_outline.md
     ├── final_notes.md
     └── google_trends_marketing/
         ├── avila_marketing_research.md
