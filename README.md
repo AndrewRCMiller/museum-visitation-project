@@ -88,8 +88,9 @@ museum-visitation-ml/
 │   └── import_google_trends_exports.py
 │
 └── docs/
-    ├── proposal.docx
-    ├── Museum_Visitation_Final_Report.docx
+    ├── Proposal.docx
+    ├── Final_Report.docx
+    ├── Presentation.pptx
     ├── final_notes.md
     └── google_trends_marketing/
 ```
